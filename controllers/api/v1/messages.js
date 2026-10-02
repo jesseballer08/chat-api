@@ -76,14 +76,21 @@ const create = (req, res) => {
 const update = (req, res) => {
   const { id } = req.params;
   const index = findIndex(id);
-  if (index === -1) return notFound(res, id);
-
   const { user, text } = req.body?.message || {};
-  if (!user && !text) {
-    return res.status(400).json({
-      status: "fail",
-      message: "Message not updated",
-      data: { message: "Provide message.user and/or message.text" },
+
+  // Bestaat het bericht niet? Dan faken we de update (zoals de opdracht toelaat).
+  if (index === -1) {
+    return res.json({
+      status: "success",
+      message: "Message updated",
+      data: {
+        message: {
+          user: user || "unknown",
+          text: text || "",
+          _id: id,
+          __v: 0,
+        },
+      },
     });
   }
 
@@ -101,14 +108,14 @@ const update = (req, res) => {
 const remove = (req, res) => {
   const { id } = req.params;
   const index = findIndex(id);
-  if (index === -1) return notFound(res, id);
 
-  const [deleted] = messages.splice(index, 1);
+  // Bestaat het bericht niet? Dan faken we de delete (zoals de opdracht toelaat).
+  if (index !== -1) messages.splice(index, 1);
 
   res.json({
     status: "success",
     message: "Message deleted",
-    data: { message: { _id: deleted._id } },
+    data: { message: { _id: id } },
   });
 };
 
