@@ -1,0 +1,46 @@
+{
+  "info": {
+    "name": "Chat API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" },
+    { "key": "id", "value": "66fa85b6ad5aaee2d047fa28" }
+  ],
+  "item": [
+    {
+      "name": "GET all messages",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/messages" }
+    },
+    {
+      "name": "GET message by id",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/messages/{{id}}" }
+    },
+    {
+      "name": "GET messages by user",
+      "request": { "method": "GET", "url": "{{baseUrl}}/api/v1/messages?user=pikachu" }
+    },
+    {
+      "name": "POST message",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"message\": {\n    \"user\": \"Pikachu\",\n    \"text\": \"nodejs isn't hard, or is it?\"\n  }\n}" },
+        "url": "{{baseUrl}}/api/v1/messages"
+      }
+    },
+    {
+      "name": "PUT message",
+      "request": {
+        "method": "PUT",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": { "mode": "raw", "raw": "{\n  \"message\": {\n    \"text\": \"Hi! I'm an updated message\"\n  }\n}" },
+        "url": "{{baseUrl}}/api/v1/messages/{{id}}"
+      }
+    },
+    {
+      "name": "DELETE message",
+      "request": { "method": "DELETE", "url": "{{baseUrl}}/api/v1/messages/{{id}}" }
+    }
+  ]
+}
